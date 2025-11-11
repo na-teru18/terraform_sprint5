@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "terraform_ecs_task" {
   memory                   = "512" # 0.5 GB　※1GB = 1024 MiB/GB
 
   # ECSがECRに接続するためのIAMポリシー
-  task_role_arn            = aws_iam_role.terraform_ecs_ecr_role.arn
+  # task_role_arn            = aws_iam_role.terraform_ecs_ecr_role.arn
   container_definitions = jsonencode([ # コンテナ定義
     {
       name      = "reservation-container"
@@ -75,7 +75,7 @@ resource "aws_ecs_service" "terraform_ecs_service" {
   network_configuration {
     subnets          = [aws_subnet.terraform_private_subnet_3.id, aws_subnet.terraform_private_subnet_4.id]
     security_groups  = [aws_security_group.terraform_api_sg.id]
-    assign_public_ip = false 
+    assign_public_ip = true
   }
 
   scheduling_strategy = "REPLICA"
