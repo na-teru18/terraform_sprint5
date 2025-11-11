@@ -10,7 +10,7 @@ resource "aws_vpc" "terraform_vpc" {
 resource "aws_subnet" "terraform_public_subnet_1" {
   vpc_id            = aws_vpc.terraform_vpc.id
   cidr_block        = "10.0.0.0/24"
-  availability_zone = "ap-northeast-1a"
+  availability_zone = "us-east-1a"
   tags = {
     Name = "web-subnet-01"
   }
@@ -89,7 +89,7 @@ resource "aws_eip" "terraform_nat_gip" {
 # Nat_Gateway
 resource "aws_nat_gateway" "terraform_ngw" {
   allocation_id = aws_eip.terraform_nat_gip[0].id // 最初のEIP（Elastic IP）を使用
-  subnet_id     = aws_subnet.terraform_public_subnet_1.id // パブリックサブネットを指定する
+  subnet_id     = aws_subnet.terraform_public_subnet_2.id // パブリックサブネットを指定する
 
   tags = {
     Name = "reservation-ng"
