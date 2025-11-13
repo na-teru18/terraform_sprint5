@@ -101,23 +101,23 @@ resource "aws_nat_gateway" "terraform_ngw" {
 }
 
 # ルートテーブル
-# resource "aws_route_table" "terraform_public_web_routetable" {
-#   vpc_id = aws_vpc.terraform_vpc.id
+resource "aws_route_table" "terraform_public_web_routetable" {
+  vpc_id = aws_vpc.terraform_vpc.id
 
-#   route {
-#     cidr_block = "0.0.0.0/0"
-#     gateway_id = aws_internet_gateway.terraform_igw.id
-#   }
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.terraform_igw.id
+  }
 
-#   route {
-#     cidr_block = "10.0.0.0/21"
-#     gateway_id = "local"
-#   }
+  route {
+    cidr_block = "10.0.0.0/21"
+    gateway_id = "local"
+  }
 
-#   tags = {
-#     Name = "web-routetable"
-#   }
-# }
+  tags = {
+    Name = "web-routetable"
+  }
+}
 
 resource "aws_route_table" "terraform_public_elb_routetable" {
   vpc_id = aws_vpc.terraform_vpc.id
@@ -169,10 +169,10 @@ resource "aws_route_table" "terraform_private_db_routetable" {
 }
 
 # ルートテーブルをサブネットに関連付けする
-# resource "aws_route_table_association" "web_sub_assc" {
-#   subnet_id      = aws_subnet.terraform_public_subnet_1.id
-#   route_table_id = aws_route_table.terraform_public_web_routetable.id
-# }
+resource "aws_route_table_association" "web_sub_assc" {
+  subnet_id      = aws_subnet.terraform_public_subnet_1.id
+  route_table_id = aws_route_table.terraform_public_web_routetable.id
+}
 
 resource "aws_route_table_association" "elb_sub_assc_1" {
   subnet_id      = aws_subnet.terraform_public_subnet_2.id
@@ -205,29 +205,35 @@ resource "aws_route_table_association" "db_sub_assc_2" {
 }
 
 # セキュリティ・グループ
-# resource "aws_security_group" "terraform_ec2_sg" {
-#   name        = "ec2-sg"
-#   description = "Allow HTTP inbound traffic and all outbound traffic"
-#   vpc_id      = aws_vpc.terraform_vpc.id
+resource "aws_security_group" "terraform_ec2_sg" {
+  name        = "ec2-sg"
+  description = "Allow HTTP and SSH inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.terraform_vpc.id
 
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   tags = {
-#     Name = "ec2-sg"
-#   }
-# }
+  tags = {
+    Name = "ec2-sg"
+  }
+}
 
 resource "aws_security_group" "terraform_alb_sg" {
   name        = "alb-sg"
