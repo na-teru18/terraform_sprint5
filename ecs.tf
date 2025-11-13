@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "terraform_ecs_task" {
   # タスク実行ロールを関連付ける
   execution_role_arn       = aws_iam_role.terraform_ecs_execution_role.arn
   depends_on = [
-    aws_db_instance.terraform_db 
+    aws_instance.terraform_bation_server
   ]
 
   container_definitions = jsonencode([ # コンテナ定義

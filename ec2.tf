@@ -1,6 +1,6 @@
 # EC2
 resource "aws_instance" "terraform_bation_server" {
-  ami           = ""
+  ami           = "ami-0cae6d6fe6048ca2c"
   instance_type = "t3.micro"
   # key_name                    = aws_key_pair.terraform_my_key_pair.key_name
   security_groups             = [aws_security_group.terraform_ec2_sg.id]
