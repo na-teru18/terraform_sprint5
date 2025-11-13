@@ -42,7 +42,7 @@ resource "aws_db_subnet_group" "terraform_db_subnet_group" {
 
 # RDS
 resource "aws_db_instance" "terraform_db" {
-  identifier             = "db-server"
+  identifier             = "dbserver"
   allocated_storage      = 10
   db_name                = "dbserver"
   engine                 = "mysql"
