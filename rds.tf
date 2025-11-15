@@ -18,6 +18,13 @@ resource "aws_security_group" "terraform_db_sg" {
     security_groups = [aws_security_group.terraform_api_sg.id]
   }
 
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.terraform_ec2_sg.id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
