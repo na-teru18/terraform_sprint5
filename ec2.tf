@@ -23,10 +23,10 @@ sudo systemctl enable mysqld
 sudo systemctl start mysqld
 
 # RDS接続情報
-RDS_HOST="$${aws_db_instance.terraform_db.address}"
-DB_USER="$${aws_db_instance.terraform_db.username}"
-DB_PASSWORD="{aws_db_instance.terraform_db.password}"
-DB_NAME="$${aws_db_instance.terraform_db.db_name}"
+RDS_HOST="${aws_db_instance.terraform_db.address}"
+DB_USER="${aws_db_instance.terraform_db.username}"
+DB_PASSWORD="${aws_db_instance.terraform_db.password}"
+DB_NAME="${aws_db_instance.terraform_db.db_name}"
 
 # スキーマとテーブルの作成
 SQL_COMMANDS=$(cat <<EOF
